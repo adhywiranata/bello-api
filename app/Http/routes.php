@@ -11,6 +11,13 @@
 |
 */
 
+
 $app->get('/', function () use ($app) {
     return $app->version();
 });
+
+$app->get('/user', 'UserController@index');
+$app->post('/user', 'UserController@store');
+$app->put('/user/{id}', 'UserController@update');
+$app->delete('/user/{id}', 'UserController@delete');
+//Route::get('/user', 'UserController@index');

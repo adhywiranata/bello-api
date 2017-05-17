@@ -13,7 +13,8 @@ class UserController extends Controller
     public function index()
   	{
   		$users = User::all();
-  		return response()->json($users);
+      echo $users;
+      //return response()->json($users);
   	}
 
     public function store(Request $request)
@@ -30,8 +31,10 @@ class UserController extends Controller
       User::create($new_user);
 
       $message = array("message"   =>  "Insert Data User Succeed");
-      $message = json_encode($message);
+	    $message = json_encode($message);
+      $message = '['.$message.']';
       print_r($message);
+
     }
 
     public function update(Request $request, $id)
@@ -49,6 +52,7 @@ class UserController extends Controller
 
       $message = array("message"   =>  "Update Data User Succeed");
       $message = json_encode($message);
+      $message = '['.$message.']';
       print_r($message);
     }
 
@@ -56,6 +60,11 @@ class UserController extends Controller
     {
       $user = User::find($id);
       $user->delete();
+
+      $message = array("message"   =>  "Delete Data User Succeed");
+      $message = json_encode($message);
+      $message = '['.$message.']';
+      print_r($message);
     }
 
 }

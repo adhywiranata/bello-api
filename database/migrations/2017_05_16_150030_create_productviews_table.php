@@ -13,6 +13,7 @@ class CreateProductviewsTable extends Migration
     public function up()
     {
       Schema::create('productviews', function (Blueprint $table) {
+          $table->increments('id');
           $table->integer('product_id');
           $table->integer('user_id');
           $table->string('interested_status');

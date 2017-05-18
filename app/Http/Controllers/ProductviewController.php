@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 // Model
 use App\Productview;
 
-class ExampleController extends Controller
+class ProductviewController extends Controller
 {
   public function index()
   {
@@ -20,8 +20,8 @@ class ExampleController extends Controller
   public function store(Request $request)
   {
     $new_productview = array(
-      'product_id',         => $request->json()->get('product_id'),
-      'user_id',            => $request->json()->get('user_id'),
+      'product_id'          => $request->json()->get('product_id'),
+      'user_id'             => $request->json()->get('user_id'),
       'interested_status'   => $request->json()->get('interested_status')
     );
     Productview::create($new_productview);
@@ -36,8 +36,8 @@ class ExampleController extends Controller
   public function update(Request $request, $id)
   {
     $update_productview = array(
-      'product_id',         => $request->json()->get('product_id'),
-      'user_id',            => $request->json()->get('user_id'),
+      'product_id'          => $request->json()->get('product_id'),
+      'user_id'             => $request->json()->get('user_id'),
       'interested_status'   => $request->json()->get('interested_status')
     );
 

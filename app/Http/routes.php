@@ -21,3 +21,18 @@ $app->post('/user', 'UserController@store');
 $app->put('/user/{id}', 'UserController@update');
 $app->delete('/user/{id}', 'UserController@delete');
 //Route::get('/user', 'UserController@index');
+
+$app->get('/buyrequest', 'BuyrequestController@index');
+$app->post('/buyrequest', 'BuyrequestController@store');
+$app->put('/buyrequest/{id}', 'BuyrequestController@update');
+$app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
+
+$app->get('/product', 'ProductController@index');
+$app->post('/product', 'ProductController@store');
+$app->put('/product/{id}', 'ProductController@update');
+$app->delete('/product/{id}', 'ProductController@delete');
+
+$app->get('/productview', 'ProductviewController@index');
+$app->post('/productview', 'ProductviewController@store');
+$app->put('/productview/{id}', 'ProductviewController@update');
+$app->delete('/productview/{id}', 'ProductviewController@delete');

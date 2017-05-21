@@ -28,8 +28,7 @@ class ProductviewController extends Controller
 
     $message = array("message"   =>  "Insert Data Product View Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
 
   }
 
@@ -47,8 +46,7 @@ class ProductviewController extends Controller
 
     $message = array("message"   =>  "Update Data Product Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
   }
 
   public function delete($id)
@@ -58,7 +56,6 @@ class ProductviewController extends Controller
 
     $message = array("message"   =>  "Delete Data Product Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
   }
 }

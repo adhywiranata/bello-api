@@ -24,7 +24,7 @@ class User extends Model implements
     use SoftDeletes;
 
     protected $fillable = [
-        'id','username','name', 'email','phone','gender'
+        'id','username','name', 'email','phone','gender','token'
     ];
 
     /**

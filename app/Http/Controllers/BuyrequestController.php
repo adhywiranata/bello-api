@@ -30,8 +30,7 @@ class BuyrequestController extends Controller
 
     $message = array("message"   =>  "Insert Data Buy Request Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
 
   }
 
@@ -49,8 +48,7 @@ class BuyrequestController extends Controller
 
     $message = array("message"   =>  "Update Data Buy Request Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
   }
 
   public function delete($id)
@@ -60,7 +58,6 @@ class BuyrequestController extends Controller
 
     $message = array("message"   =>  "Delete Data Buy Request Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
   }
 }

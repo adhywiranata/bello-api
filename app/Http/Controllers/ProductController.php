@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 // Model
 use App\Product;
+use App\User;
 
 class ProductController extends Controller
 {
@@ -28,9 +29,7 @@ class ProductController extends Controller
 
     $message = array("message"   =>  "Insert Data Product Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
-
+    echo $message;
   }
 
   public function update(Request $request, $id)
@@ -45,8 +44,7 @@ class ProductController extends Controller
 
     $message = array("message"   =>  "Update Data Product Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
   }
 
   public function delete($id)
@@ -56,7 +54,78 @@ class ProductController extends Controller
 
     $message = array("message"   =>  "Delete Data Product Succeed");
     $message = json_encode($message);
-    $message = '['.$message.']';
-    print_r($message);
+    echo $message;
   }
+
+  // READ PRODUCT BUKALAPAK API
+  public function selectProductById($id)
+  {
+    //$product_id = "1cc074"; // For Debug Purpose
+    $read_product_status = "Read Product Failed";
+    $review_product_status = "Get Review Product Failed";
+
+    // READ PRODUCT DETAIL BY PRODUCT ID
+    $product_id = $id;
+    $url_read_product     = 'https://api.bukalapak.com/v2/products/'.$product_id.'.json';
+    $read_product         = curl_init();
+    curl_setopt($read_product, CURLOPT_URL, $url_read_product);
+    curl_setopt($read_product, CURLOPT_RETURNTRANSFER, 1);
+    $response_read_product = curl_exec($read_product);
+    $response_read_product = json_decode($response_read_product);
+    if($response_read_product->status == "ERROR"){
+      $read_product_status = "Read Product Failed";
+      $total_response['product'] = "";
+    }else if($response_read_product->status == "OK"){
+      $read_product_status = "Read Product Succeed";
+      $total_response['product'] = $response_read_product->product;
+    }
+
+    // READ REVIEW PRODUCT BY PRODUCT ID
+    $url_review_product     = 'https://api.bukalapak.com/v2/products/'.$product_id.'/reviews.json';
+    $review_product         = curl_init();
+    curl_setopt($review_product, CURLOPT_URL, $url_review_product);
+    curl_setopt($review_product, CURLOPT_RETURNTRANSFER, 1);
+    $response_review_product = curl_exec($review_product);
+    $response_review_product = json_decode($response_review_product);
+    if($response_review_product->status == "ERROR"){
+      $review_product_status = "Get Review Product Failed";
+      $total_response['reviews'] = "";
+    }else if($response_review_product->status == "OK"){
+      $review_product_status = "Get Review Product Succeed";
+      if($response_review_product->reviews == NULL):
+        $total_response['reviews'] = "";
+      else:
+        $total_response['reviews'] = $response_review_product->reviews;
+      endif;
+    }
+    $total_response['product_status'] = $read_product_status;
+    $total_response['review_status'] = $review_product_status;
+
+    $total_response = json_encode($total_response);
+    echo $total_response;
+  }
+
+  public function productListByUserId($keyword)
+  {
+    $users = User::all();
+    $total_response = array();
+    foreach( $users as $user ):
+      $url_read_product     = 'https://api.bukalapak.com/v2/products.json?keywords='.$keyword.'&user_id='.$user->id; // 31040836
+      $read_product         =  curl_init();
+      curl_setopt($read_product, CURLOPT_URL, $url_read_product);
+      curl_setopt($read_product, CURLOPT_RETURNTRANSFER, 1);
+      $response_read_product = curl_exec($read_product);
+      $response_read_product = json_decode($response_read_product);
+
+      if($response_read_product->status == "OK"):
+        if($response_read_product->products != NULL):
+          array_push($total_response,$response_read_product);
+        endif;
+      endif;
+
+    endforeach;
+    $total_response = json_encode($total_response);
+    echo $total_response;
+  }
+
 }

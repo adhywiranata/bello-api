@@ -126,6 +126,13 @@ class UserController extends Controller
           $user = User::updateOrCreate($condition_user,$response_user);
           $user->save();
 
+          // RETURN DATA USER
+          $message['username'] = $response_detail->user->username;
+          $message['name'] = $response_login->user_name;
+          $message['email'] = $response_login->email;
+          $message['token'] = $response_login->token;
+          $message['phone'] = $response_detail->user->phone;
+          $message['gender'] = $response_detail->user->gender;
 
           // USER LAPAK INFO
           // => SALE PRODUCT
@@ -191,12 +198,11 @@ class UserController extends Controller
         }// END IF USER DETAIL STATUS
       }// END IF USER LOGIN STATUS
 
-      $message = array(
-        "login_status"          =>  $login_status,
-        "detail_user_status"    =>  $detail_user_status,
-        "lapak_sale_status"     =>  $lapak_sale_user_status,
-        "lapak_unsale_status"   =>  $lapak_unsale_user_status,
-      );
+      $message["login_status"] = $login_status;
+      $message["detail_user_status"] = $detail_user_status;
+      $message["lapak_sale_status"] = $lapak_sale_user_status;
+      $message["lapak_unsale_status"] = $lapak_unsale_user_status;
+
       $message = json_encode($message);
       echo $message;
     }

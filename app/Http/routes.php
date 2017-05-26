@@ -36,7 +36,8 @@ $app->put('/product/{id}', 'ProductController@update');
 $app->delete('/product/{id}', 'ProductController@delete');
 $app->get('/product/{id}', 'ProductController@selectProductById');
 $app->get('/product/keyword/{id}', 'ProductController@productListByUserId');
-$app->post('/product/add', 'ProductController@addToCart');
+$app->post('/product/addCart', 'ProductController@addToCart');
+$app->post('/product/viewCart', 'ProductController@selectCart');
 
 $app->get('/productview', 'ProductviewController@index');
 $app->post('/productview', 'ProductviewController@store');

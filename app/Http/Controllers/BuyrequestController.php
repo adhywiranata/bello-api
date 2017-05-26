@@ -99,7 +99,9 @@ class BuyrequestController extends Controller
     endif;
 
     $buyrequest = Buyrequest::where('user_id','=',$request->json()->get('user_id'))
-                            ->where('keyword','=',$request->json()->get('keyword'));
+                            ->where('keyword','=',$request->json()->get('keyword'))
+                            ->orderBy('created_at',"DESC")
+                            ->first();
 
     $buyrequest->update($update_user);
     $buyrequest->save();

@@ -34,7 +34,9 @@ class BuyrequestController extends Controller
       'reminder_schedule'   => date('Y-m-d',strtotime($request->json()->get('reminder_schedule'))),
       'is_cancel'           => $request->json()->get('is_cancel'),
       'cancelation_reason'  => $request->json()->get('cancelation_reason'),
+      'is_delete'           => $request->json()->get('is_delete'),
     );
+
     Buyrequest::create($new_buyrequest);
 
     $message = array("message"   =>  "Insert Data Buy Request Succeed");
@@ -52,6 +54,7 @@ class BuyrequestController extends Controller
       'reminder_schedule'   => date('Y-m-d',strtotime($request->json()->get('reminder_schedule'))),
       'is_cancel'           => $request->json()->get('is_cancel'),
       'cancelation_reason'  => $request->json()->get('cancelation_reason'),
+      'is_delete'           => $request->json()->get('is_delete'),
     );
     $buyrequest = Buyrequest::find($id);
     $buyrequest->update($update_user);
@@ -71,4 +74,40 @@ class BuyrequestController extends Controller
     $message = json_encode($message);
     echo $message;
   }
+
+  public function updateCustom(Request $request)
+  {
+    $update_buyrequest = array();
+    if($request->json()->get('is_purchase')):
+      $update_buyrequest['is_purchase'] = $request->json()->get('is_purchase');
+    endif;
+
+    if($request->json()->get('reminder_schedule')):
+      $update_buyrequest['reminder_schedule'] = $request->json()->get('reminder_schedule');
+    endif;
+
+    if($request->json()->get('is_cancel')):
+      $update_buyrequest['is_cancel'] = $request->json()->get('is_cancel');
+    endif;
+
+    if($request->json()->get('cancelation_reason')):
+      $update_buyrequest['cancelation_reason'] = $request->json()->get('cancelation_reason');
+    endif;
+
+    if($request->json()->get('is_delete')):
+      $update_buyrequest['is_delete'] = $request->json()->get('is_delete');
+    endif;
+
+    $buyrequest = Buyrequest::where('user_id','=',$request->json()->get('user_id'))
+                            ->where('keyword','=',$request->json()->get('keyword'));
+
+    $buyrequest->update($update_user);
+    $buyrequest->save();
+
+    $message = array("message"   =>  "Update Data Buy Request Succeed");
+    $message = json_encode($message);
+    echo $message;
+  }
+
+
 }

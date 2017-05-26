@@ -14,7 +14,6 @@ class CreateBuyrequestsTable extends Migration
     {
       Schema::create('buyrequests', function (Blueprint $table) {
           $table->increments('id');
-
           $table->integer('user_id');
           $table->string('keyword');
           $table->integer('is_purchase');

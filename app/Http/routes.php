@@ -27,6 +27,7 @@ $app->get('/buyrequest', 'BuyrequestController@index');
 $app->get('/buyrequest/{id}', 'BuyrequestController@select');
 $app->post('/buyrequest', 'BuyrequestController@store');
 $app->put('/buyrequest/{id}', 'BuyrequestController@update');
+$app->post('/buyrequest/updateCustom', 'BuyrequestController@updateCustom');
 $app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
 
 $app->get('/product', 'ProductController@index');

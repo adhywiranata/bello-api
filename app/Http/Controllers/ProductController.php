@@ -231,4 +231,34 @@ class ProductController extends Controller
     echo $message;
   }
 
+  public function selectCart(Request $request)
+  {
+    $user_id      = $request->json()->get('user_id');
+    $token        = $request->json()->get('token');
+/*
+    $header_login = array(
+      "Authorization: Bearer ".base64_encode($user_id.":".$token)
+    );
+    $post_data = array(
+      'id'          => $product_id,
+      'quantity'    => $quantity
+    );
+    $url_add_to_cart    = 'https://api.bukalapak.com/v2/carts/add_product/'.$product_id.'.json';
+    $add_to_cart        =  curl_init();
+
+    curl_setopt($add_to_cart, CURLOPT_URL, $url_add_to_cart);
+    curl_setopt($add_to_cart, CURLOPT_HTTPHEADER, $header_login);
+    curl_setopt($add_to_cart, CURLOPT_POST, 1);
+    curl_setopt($add_to_cart, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($add_to_cart, CURLOPT_POSTFIELDS, $post_data);
+    $response_add_to_cart = curl_exec($add_to_cart);
+    $response_add_to_cart = json_decode($response_add_to_cart);
+
+    $message['status_cart'] = "Your Product is added to cart";
+
+    $message = json_encode($message);
+    echo $message;
+    */
+  }
+
 }

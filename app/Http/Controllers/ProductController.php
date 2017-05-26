@@ -251,4 +251,28 @@ class ProductController extends Controller
     echo $response_view_cart;
   }
 
+  public function deleteCart(Request $request)
+  {
+    $user_id      = $request->json()->get('user_id');
+    $token        = $request->json()->get('token');
+
+    $header_login = array(
+      "Authorization: Bearer ".base64_encode($user_id.":".$token)
+    );
+    $post_data = array(
+      'id'          => $request->json()->get('product_id'),
+    );
+    $url_delete_cart    = 'https://api.bukalapak.com/v2/carts.json';
+    $delete_cart        =  curl_init();
+
+    curl_setopt($delete_cart, CURLOPT_URL, $url_delete_cart);
+    curl_setopt($delete_cart, CURLOPT_HTTPHEADER, $header_login);
+    curl_setopt($delete_cart, CURLOPT_POST, 1);
+    curl_setopt($delete_cart, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($delete_cart, CURLOPT_POSTFIELDS, $post_data);
+    $response_delete_cart = curl_exec($delete_cart);
+
+    echo $response_delete_cart;
+  }
+
 }

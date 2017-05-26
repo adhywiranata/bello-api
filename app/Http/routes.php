@@ -38,6 +38,7 @@ $app->get('/product/{id}', 'ProductController@selectProductById');
 $app->get('/product/keyword/{id}', 'ProductController@productListByUserId');
 $app->post('/product/addCart', 'ProductController@addToCart');
 $app->post('/product/viewCart', 'ProductController@selectCart');
+$app->post('/product/deleteCart', 'ProductController@deleteCart');
 
 $app->get('/productview', 'ProductviewController@index');
 $app->post('/productview', 'ProductviewController@store');

@@ -109,6 +109,7 @@ class ProductController extends Controller
   {
     $users = User::all();
     $total_response = array();
+
     foreach( $users as $user ):
       $url_read_product     = 'https://api.bukalapak.com/v2/products.json?keywords='.$keyword.'&user_id='.$user->id; // 31040836
       $read_product         =  curl_init();
@@ -119,11 +120,49 @@ class ProductController extends Controller
 
       if($response_read_product->status == "OK"):
         if($response_read_product->products != NULL):
-          array_push($total_response,$response_read_product);
+
+          $index = 0;
+          foreach($response_read_product->products as $read_product ):
+            // READ REVIEW PRODUCT BY PRODUCT ID
+            if($index < 10):
+              $product = array();
+              $product['id']    = $read_product->id;
+              $product['name']  = $read_product->name;
+              $product['owner'] = $read_product->seller_name;
+              $product['price'] = $read_product->price;
+              $product['image'] = $read_product->images[0];
+
+              $url_review_product     = 'https://api.bukalapak.com/v2/products/'.$read_product->id.'/reviews.json';
+              $review_product         = curl_init();
+              curl_setopt($review_product, CURLOPT_URL, $url_review_product);
+              curl_setopt($review_product, CURLOPT_RETURNTRANSFER, 1);
+              $response_review_product = curl_exec($review_product);
+              $response_review_product = json_decode($response_review_product);
+              $review_product_status   = "";
+              if($response_review_product->status == "ERROR"){
+                $review_product_status = "Get Review Product Failed";
+                $product['reviews'] = "";
+              }else if($response_review_product->status == "OK"){
+                $review_product_status = "Get Review Product Succeed";
+                if($response_review_product->reviews == NULL):
+                  $product['reviews'] = "";
+                else:
+                  $product['reviews'] = $response_review_product->reviews;
+                endif;
+              }
+              $product['review_status'] = $review_product_status;
+              array_push($total_response,$product);
+            else:
+              break;
+            endif;
+            $index++;
+          endforeach;
+
         endif;
       endif;
 
     endforeach;
+
     $total_response = json_encode($total_response);
     echo $total_response;
   }
@@ -140,7 +179,7 @@ class ProductController extends Controller
     $quantity     = $request->json()->get('quantity');
     $user_id      = $request->json()->get('user_id');
     $token        = $request->json()->get('token');
-    $message        = array();
+    $message      = array();
 
     $status_product_owner = "This product is not owner product";
 

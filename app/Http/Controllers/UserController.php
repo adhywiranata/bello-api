@@ -127,6 +127,7 @@ class UserController extends Controller
           $user->save();
 
           // RETURN DATA USER
+          $message['id'] = $response_login->user_id;
           $message['username'] = $response_detail->user->username;
           $message['name'] = $response_login->user_name;
           $message['email'] = $response_login->email;

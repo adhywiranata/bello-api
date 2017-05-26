@@ -14,7 +14,9 @@ class Buyrequest extends Model
       'user_id',
       'keyword',
       'is_purchase',
-      'reminder_schedule'
+      'is_cancel',
+      'cancelation_reason',
+      'reminder_schedule',
     ];
 
 

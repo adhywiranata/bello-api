@@ -24,6 +24,7 @@ $app->post('/user/login', 'UserController@loginApi');
 //Route::get('/user', 'UserController@index');
 
 $app->get('/buyrequest', 'BuyrequestController@index');
+$app->get('/buyrequest/{id}', 'BuyrequestController@select');
 $app->post('/buyrequest', 'BuyrequestController@store');
 $app->put('/buyrequest/{id}', 'BuyrequestController@update');
 $app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
@@ -34,7 +35,7 @@ $app->put('/product/{id}', 'ProductController@update');
 $app->delete('/product/{id}', 'ProductController@delete');
 $app->get('/product/{id}', 'ProductController@selectProductById');
 $app->get('/product/keyword/{id}', 'ProductController@productListByUserId');
-
+$app->get('/product/add', 'ProductController@addToCart');
 
 $app->get('/productview', 'ProductviewController@index');
 $app->post('/productview', 'ProductviewController@store');

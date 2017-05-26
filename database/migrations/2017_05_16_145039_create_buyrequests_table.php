@@ -18,6 +18,8 @@ class CreateBuyrequestsTable extends Migration
           $table->integer('user_id');
           $table->string('keyword');
           $table->integer('is_purchase');
+          $table->string('is_cancel');
+          $table->string('cancelation_reason');
           $table->date('reminder_schedule');
 
           $table->timestamps();

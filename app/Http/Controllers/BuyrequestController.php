@@ -17,6 +17,13 @@ class BuyrequestController extends Controller
     //return response()->json($users);
   }
 
+  public function select($user_id)
+  {
+    $buyrequests = Buyrequest::where("user_id","=",$user_id)->get();
+    echo $buyrequests;
+  }
+
+
   public function store(Request $request)
   {
 
@@ -25,6 +32,8 @@ class BuyrequestController extends Controller
       'keyword'             => $request->json()->get('keyword'),
       'is_purchase'         => $request->json()->get('is_purchase'),
       'reminder_schedule'   => date('Y-m-d',strtotime($request->json()->get('reminder_schedule'))),
+      'is_cancel'           => $request->json()->get('is_cancel'),
+      'cancelation_reason'  => $request->json()->get('cancelation_reason'),
     );
     Buyrequest::create($new_buyrequest);
 
@@ -41,6 +50,8 @@ class BuyrequestController extends Controller
       'keyword'             => $request->json()->get('keyword'),
       'is_purchase'         => $request->json()->get('is_purchase'),
       'reminder_schedule'   => date('Y-m-d',strtotime($request->json()->get('reminder_schedule'))),
+      'is_cancel'           => $request->json()->get('is_cancel'),
+      'cancelation_reason'  => $request->json()->get('cancelation_reason'),
     );
     $buyrequest = Buyrequest::find($id);
     $buyrequest->update($update_user);

@@ -54,6 +54,42 @@ class UserController extends Controller
       echo $message;
     }
 
+    public function updateCustom(Request $request)
+    {
+      $update_user = array();
+      if($request->json()->get('username')):
+        $update_user["username"] = $request->json()->get('username');
+      endif;
+
+      if($request->json()->get('name')):
+        $update_user["name"] = $request->json()->get('name');
+      endif;
+
+      if($request->json()->get('email')):
+        $update_user["email"] = $request->json()->get('email');
+      endif;
+
+      if($request->json()->get('phone')):
+        $update_user["phone"] = $request->json()->get('phone');
+      endif;
+
+      if($request->json()->get('gender')):
+        $update_user["gender"] = $request->json()->get('gender');
+      endif;
+
+      if($request->json()->get('onesignal_id')):
+        $update_user["onesignal_id"] = $request->json()->get('onesignal_id');
+      endif;
+
+      $user = User::find($request->json()->get('user_id'));
+      $user->update($update_user);
+      $user->save();
+
+      $message = array("message"   =>  "Update Custom Data User Succeed");
+      $message = json_encode($message);
+      echo $message;
+    }
+
     public function delete($id)
     {
       $user = User::find($id);
@@ -208,6 +244,38 @@ class UserController extends Controller
       echo $message;
     }
 
+    // PUSH NOTIFICATION
+    public function oneSignal(Request $request)
+    {
+      //$user_id = 31040836;
+      $user_id  = $request->json()->get('user_id');
 
+      $user = User::find($user_id);
+      $id   = $user->onesignal_id;
+
+      $url_onesignal    = 'https://onesignal.com/api/v1/notifications';
+      $header_onesignal = array(
+        "Authorization: Basic Auth",
+        "Username: MjA5MzMwNjEtMWEzMi00OWIxLWJmMzctZDQ3NzJlYTI4MzU0",
+        "Content-Type:application/json"
+      );
+      $post_data = array(
+        'app_id'                => "384198bc-be93-4699-b152-5d79ab74a7f8",
+        'include_player_ids'    => array($id),
+	      'template_id'           => "d4cb91a4-1c85-4e11-8430-28fbe2a57078"
+      );
+      $post_data    = json_encode($post_data);
+
+      $onesignal    = curl_init();
+      curl_setopt($onesignal, CURLOPT_URL, $url_onesignal);
+      curl_setopt($onesignal, CURLOPT_HTTPHEADER, $header_onesignal);
+      curl_setopt($onesignal, CURLOPT_POST, 1);
+      curl_setopt($onesignal, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($onesignal, CURLOPT_POSTFIELDS, $post_data);
+      $response_onesignal = curl_exec($onesignal);
+      //$response_onesignal = json_decode($response_onesignal);
+      echo $response_onesignal;
+
+    }
 
 }

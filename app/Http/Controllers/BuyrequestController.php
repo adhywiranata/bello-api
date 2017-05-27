@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 // Request
 use Illuminate\Http\Request;
 
+// library
+use Carbon\Carbon;
+use DateTime;
+use DB;
+
+
 // Model
 use App\Buyrequest;
 
@@ -106,10 +112,55 @@ class BuyrequestController extends Controller
     $buyrequest->update($update_buyrequest);
     $buyrequest->save();
 
-    $message = array("message"   =>  "Update Data Buy Request Succeed");
+    $message = array("message"   =>  "Update Custom Data Buy Request Succeed");
     $message = json_encode($message);
     echo $message;
   }
+
+  // GET ANALYTICS MONTHLY BY A KEYWORD
+  public function keywordAnalytics(Request $request)
+  {
+    //$keyword  = "iphone";
+    $keyword  = $request->json()->get('keyword');
+    $message  = array();
+    $year     = date('Y');
+    $analytics = Buyrequest::where('keyword','like','%'.$keyword.'%')
+                            ->whereYear('created_at','=',$year)
+                            ->orderBy('created_at','ASC')
+                            ->get()
+                            ->groupBy(function($date) {
+                                return Carbon::parse($date->created_at)->format('m');
+                              });
+
+    if(sizeof($analytics) > 0):
+      foreach($analytics as  $index => $analytic):
+        $month      = intval($index);
+        $dateObj    = DateTime::createFromFormat('!m', $month);
+        $monthName  = $dateObj->format('F');
+        $monthName  = substr($monthName,0,3);
+
+        $count = count($analytic);
+        $data = array(
+          "month" => $monthName,
+          "total" => $count
+        );
+        array_push($message,$data);
+      endforeach;
+    endif;
+    $message = json_encode($message);
+    echo $message;
+  }
+
+  // GET KEYWORD LIST FOR USER SUBSCRIBE
+  public function keywordTrends()
+  {
+    $trends = Buyrequest::select('*', DB::raw('count(*) as total'))
+                 ->groupBy('keyword')
+                 ->orderBy('total','DESC')
+                 ->get();
+    echo $trends;
+  }
+
 
 
 }

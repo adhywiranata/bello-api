@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 // library
 use Carbon\Carbon;
 use DateTime;
+use DB;
+
 
 // Model
 use App\Buyrequest;
@@ -144,6 +146,15 @@ class BuyrequestController extends Controller
     endif;
     $message = json_encode($message);
     echo $message;
+  }
+
+  public function keywordTrends()
+  {
+    $trends = Buyrequest::select('*', DB::raw('count(*) as total'))
+                 ->groupBy('keyword')
+                 ->orderBy('total','DESC')
+                 ->get();
+    echo $trends;
   }
 
 

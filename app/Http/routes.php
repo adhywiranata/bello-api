@@ -36,6 +36,15 @@ $app->post('/buyrequest/keyword', 'BuyrequestController@keywordAnalytics');
 $app->get('/buyrequest/trends', 'BuyrequestController@keywordTrends');
 
 
+
+$app->get('/userbuyrequest', 'UserbuyrequestController@index');
+$app->post('/userbuyrequest', 'UserbuyrequestController@store');
+$app->put('/userbuyrequest/{id}', 'UserbuyrequestController@update');
+$app->delete('/userbuyrequest/{id}', 'UserbuyrequestController@delete');
+$app->post('/user/keywords/subscribe', 'UserbuyrequestController@userSubscribeKeywords');
+
+
+
 $app->get('/product', 'ProductController@index');
 $app->post('/product', 'ProductController@store');
 $app->put('/product/{id}', 'ProductController@update');

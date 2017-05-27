@@ -117,8 +117,10 @@ class BuyrequestController extends Controller
     echo $message;
   }
 
+  // GET ANALYTICS MONTHLY BY A KEYWORD
   public function keywordAnalytics(Request $request)
   {
+    //$keyword  = "iphone";
     $keyword  = $request->json()->get('keyword');
     $message  = array();
     $year     = date('Y');
@@ -135,6 +137,7 @@ class BuyrequestController extends Controller
         $month      = intval($index);
         $dateObj    = DateTime::createFromFormat('!m', $month);
         $monthName  = $dateObj->format('F');
+        $monthName  = substr($monthName,0,3);
 
         $count = count($analytic);
         $data = array(
@@ -148,6 +151,7 @@ class BuyrequestController extends Controller
     echo $message;
   }
 
+  // GET KEYWORD LIST FOR USER SUBSCRIBE
   public function keywordTrends()
   {
     $trends = Buyrequest::select('*', DB::raw('count(*) as total'))
@@ -156,6 +160,7 @@ class BuyrequestController extends Controller
                  ->get();
     echo $trends;
   }
+
 
 
 }

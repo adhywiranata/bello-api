@@ -244,6 +244,38 @@ class UserController extends Controller
       echo $message;
     }
 
+    // PUSH NOTIFICATION
+    public function oneSignal(Request $request)
+    {
+      //$user_id = 31040836;
+      $user_id  = $request->json()->get('user_id');
 
+      $user = User::find($user_id);
+      $id   = $user->onesignal_id;
+
+      $url_onesignal    = 'https://onesignal.com/api/v1/notifications';
+      $header_onesignal = array(
+        "Authorization: Basic Auth",
+        "Username: MjA5MzMwNjEtMWEzMi00OWIxLWJmMzctZDQ3NzJlYTI4MzU0",
+        "Content-Type:application/json"
+      );
+      $post_data = array(
+        'app_id'                => "384198bc-be93-4699-b152-5d79ab74a7f8",
+        'include_player_ids'    => array($id),
+	      'template_id'           => "d4cb91a4-1c85-4e11-8430-28fbe2a57078"
+      );
+      $post_data    = json_encode($post_data);
+
+      $onesignal    = curl_init();
+      curl_setopt($onesignal, CURLOPT_URL, $url_onesignal);
+      curl_setopt($onesignal, CURLOPT_HTTPHEADER, $header_onesignal);
+      curl_setopt($onesignal, CURLOPT_POST, 1);
+      curl_setopt($onesignal, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($onesignal, CURLOPT_POSTFIELDS, $post_data);
+      $response_onesignal = curl_exec($onesignal);
+      //$response_onesignal = json_decode($response_onesignal);
+      echo $response_onesignal;
+
+    }
 
 }

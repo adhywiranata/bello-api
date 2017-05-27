@@ -43,7 +43,7 @@ $app->post('/userbuyrequest', 'UserbuyrequestController@store');
 $app->put('/userbuyrequest/{id}', 'UserbuyrequestController@update');
 $app->delete('/userbuyrequest/{id}', 'UserbuyrequestController@delete');
 $app->post('/user/keywords/subscribe', 'UserbuyrequestController@userSubscribeKeywords');
-
+$app->post('/user/onesignal', 'UserController@oneSignal');
 
 
 $app->get('/product', 'ProductController@index');

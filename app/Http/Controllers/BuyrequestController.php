@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 // library
 use Carbon\Carbon;
+use DateTime;
 
 // Model
 use App\Buyrequest;
@@ -116,9 +117,9 @@ class BuyrequestController extends Controller
 
   public function keywordAnalytics(Request $request)
   {
-    $keyword = $request->json()->get('keyword');
-    $message = array();
-    $year = date('Y');
+    $keyword  = $request->json()->get('keyword');
+    $message  = array();
+    $year     = date('Y');
     $analytics = Buyrequest::where('keyword','like','%'.$keyword.'%')
                             ->whereYear('created_at','=',$year)
                             ->orderBy('created_at','ASC')
@@ -129,10 +130,13 @@ class BuyrequestController extends Controller
 
     if(sizeof($analytics) > 0):
       foreach($analytics as  $index => $analytic):
-        $month = intval($index);
+        $month      = intval($index);
+        $dateObj    = DateTime::createFromFormat('!m', $month);
+        $monthName  = $dateObj->format('F');
+
         $count = count($analytic);
         $data = array(
-          "month" => $month,
+          "month" => $monthName,
           "total" => $count
         );
         array_push($message,$data);

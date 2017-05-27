@@ -112,7 +112,7 @@ class BuyrequestController extends Controller
     $buyrequest->update($update_user);
     $buyrequest->save();
 
-    $message = array("message"   =>  "Update Data Buy Request Succeed");
+    $message = array("message"   =>  "Update Custom Data Buy Request Succeed");
     $message = json_encode($message);
     echo $message;
   }

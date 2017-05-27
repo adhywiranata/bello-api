@@ -54,6 +54,42 @@ class UserController extends Controller
       echo $message;
     }
 
+    public function updateCustom(Request $request)
+    {
+      $update_user = array();
+      if($request->json()->get('username')):
+        $update_user["username"] = $request->json()->get('username');
+      endif;
+
+      if($request->json()->get('name')):
+        $update_user["name"] = $request->json()->get('name');
+      endif;
+
+      if($request->json()->get('email')):
+        $update_user["email"] = $request->json()->get('email');
+      endif;
+
+      if($request->json()->get('phone')):
+        $update_user["phone"] = $request->json()->get('phone');
+      endif;
+
+      if($request->json()->get('gender')):
+        $update_user["gender"] = $request->json()->get('gender');
+      endif;
+
+      if($request->json()->get('onesignal_id')):
+        $update_user["onesignal_id"] = $request->json()->get('onesignal_id');
+      endif;
+
+      $user = User::find($request->json()->get('user_id'));
+      $user->update($update_user);
+      $user->save();
+
+      $message = array("message"   =>  "Update Custom Data User Succeed");
+      $message = json_encode($message);
+      echo $message;
+    }
+
     public function delete($id)
     {
       $user = User::find($id);

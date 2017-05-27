@@ -22,6 +22,7 @@ $app->put('/user/{id}', 'UserController@update');
 $app->delete('/user/{id}', 'UserController@delete');
 
 $app->post('/user/login', 'UserController@loginApi');
+$app->post('/user/updateCustom', 'UserController@updateCustom');
 //Route::get('/user', 'UserController@index');
 
 

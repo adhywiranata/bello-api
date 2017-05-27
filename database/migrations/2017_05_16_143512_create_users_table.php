@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('token');
             $table->string('phone');
             $table->string('gender');
+            $table->string('onesignal_id');
             //$table->rememberToken();
 
             $table->timestamps();

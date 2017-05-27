@@ -20,25 +20,34 @@ $app->get('/user', 'UserController@index');
 $app->post('/user', 'UserController@store');
 $app->put('/user/{id}', 'UserController@update');
 $app->delete('/user/{id}', 'UserController@delete');
+
 $app->post('/user/login', 'UserController@loginApi');
 //Route::get('/user', 'UserController@index');
 
+
 $app->get('/buyrequest', 'BuyrequestController@index');
-$app->get('/buyrequest/{id}', 'BuyrequestController@select');
 $app->post('/buyrequest', 'BuyrequestController@store');
 $app->put('/buyrequest/{id}', 'BuyrequestController@update');
-$app->post('/buyrequest/updateCustom', 'BuyrequestController@updateCustom');
 $app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
+
+$app->get('/buyrequest/{id}', 'BuyrequestController@select');
+$app->post('/buyrequest/updateCustom', 'BuyrequestController@updateCustom');
+$app->post('/buyrequest/keyword/{keyword}', 'BuyrequestController@keywordAnalytics');
+
+
 
 $app->get('/product', 'ProductController@index');
 $app->post('/product', 'ProductController@store');
 $app->put('/product/{id}', 'ProductController@update');
 $app->delete('/product/{id}', 'ProductController@delete');
+
 $app->get('/product/{id}', 'ProductController@selectProductById');
 $app->get('/product/keyword/{id}', 'ProductController@productListByUserId');
 $app->post('/product/addCart', 'ProductController@addToCart');
 $app->post('/product/viewCart', 'ProductController@selectCart');
 $app->post('/product/deleteCart', 'ProductController@deleteCart');
+
+
 
 $app->get('/productview', 'ProductviewController@index');
 $app->post('/productview', 'ProductviewController@store');

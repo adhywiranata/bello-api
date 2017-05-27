@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 // Request
 use Illuminate\Http\Request;
 
+// library
+use Carbon\Carbon;
+
 // Model
 use App\Buyrequest;
 
@@ -107,6 +110,34 @@ class BuyrequestController extends Controller
     $buyrequest->save();
 
     $message = array("message"   =>  "Update Data Buy Request Succeed");
+    $message = json_encode($message);
+    echo $message;
+  }
+
+  public function keywordAnalytics(Request $request)
+  {
+    $keyword = $request->json()->get('keyword');
+    $message = array();
+    $year = date('Y');
+    $analytics = Buyrequest::where('keyword','like','%'.$keyword.'%')
+                            ->whereYear('created_at','=',$year)
+                            ->orderBy('created_at','ASC')
+                            ->get()
+                            ->groupBy(function($date) {
+                                return Carbon::parse($date->created_at)->format('m');
+                              });
+
+    if(sizeof($analytics) > 0):
+      foreach($analytics as  $index => $analytic):
+        $month = intval($index);
+        $count = count($analytic);
+        $data = array(
+          "month" => $month,
+          "total" => $count
+        );
+        array_push($message,$data);
+      endforeach;
+    endif;
     $message = json_encode($message);
     echo $message;
   }

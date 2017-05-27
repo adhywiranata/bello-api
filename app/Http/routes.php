@@ -32,7 +32,7 @@ $app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
 
 $app->get('/buyrequest/{id}', 'BuyrequestController@select');
 $app->post('/buyrequest/updateCustom', 'BuyrequestController@updateCustom');
-$app->post('/buyrequest/keyword/{keyword}', 'BuyrequestController@keywordAnalytics');
+$app->post('/buyrequest/keyword', 'BuyrequestController@keywordAnalytics');
 
 
 

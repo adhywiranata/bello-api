@@ -124,7 +124,7 @@ class ProductController extends Controller
           $index = 0;
           foreach($response_read_product->products as $read_product ):
             // READ REVIEW PRODUCT BY PRODUCT ID
-            if($index < 10):
+            if($index < 5):
               $product = array();
               $product['id']    = $read_product->id;
               $product['name']  = $read_product->name;
@@ -235,6 +235,7 @@ class ProductController extends Controller
   {
     $user_id      = $request->json()->get('user_id');
     $token        = $request->json()->get('token');
+    $total_response = array();
 
     $header_login = array(
       "Authorization: Bearer ".base64_encode($user_id.":".$token)
@@ -247,8 +248,33 @@ class ProductController extends Controller
     curl_setopt($view_cart, CURLOPT_HTTPHEADER, $header_login);
     curl_setopt($view_cart, CURLOPT_RETURNTRANSFER, 1);
     $response_view_cart = curl_exec($view_cart);
+    $response_view_cart = json_decode($response_view_cart);
 
-    echo $response_view_cart;
+    //echo $response_view_cart; die();
+
+    if($response_view_cart->status == "OK"):
+      if(sizeof($response_view_cart->cart) > 0):
+
+        foreach($response_view_cart->cart as $cart):
+
+          foreach($cart->items as $item):
+            // READ REVIEW PRODUCT BY PRODUCT ID
+            $product = array();
+            $product['id']        = $item->id;
+            $product['name']      = $item->name;
+            $product['owner']     = $cart->seller->name;
+            $product['price']     = $item->price;
+            $product['quantity']  = $item->quantity;
+            $product['image']     = $item->product->images[0];
+            array_push($total_response, $product);
+          endforeach;
+
+        endforeach;
+
+      endif;
+    endif;
+
+    echo json_encode($total_response);
   }
 
   public function deleteCart(Request $request)

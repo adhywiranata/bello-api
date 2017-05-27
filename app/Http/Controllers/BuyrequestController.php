@@ -103,7 +103,7 @@ class BuyrequestController extends Controller
                             ->orderBy('created_at',"DESC")
                             ->first();
 
-    $buyrequest->update($update_user);
+    $buyrequest->update($update_buyrequest);
     $buyrequest->save();
 
     $message = array("message"   =>  "Update Data Buy Request Succeed");

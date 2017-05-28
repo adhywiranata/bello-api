@@ -173,6 +173,7 @@ class BuyrequestController extends Controller
     $user_id    = $request->json()->get('user_id');
     $reminders  = Buyrequest::where('user_id','=',$user_id)
                   ->whereDate('reminder_schedule','>',date("Y-m-d"))
+                  ->where('is_delete','=',0)
                   ->get();
     echo $reminders;
   }
@@ -185,6 +186,7 @@ class BuyrequestController extends Controller
     $reminders  = Buyrequest::where('user_id','=',$user_id)
                   ->whereDate('reminder_schedule','<=',date("Y-m-d"))
                   ->where('is_read','=',0)
+                  ->where('is_delete','=',0)
                   ->get();
     echo $reminders;
   }

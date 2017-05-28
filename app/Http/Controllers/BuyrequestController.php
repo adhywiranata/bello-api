@@ -216,6 +216,7 @@ class BuyrequestController extends Controller
                                   ->take(5)->get();
 
     $total_responses = array();
+
     foreach($reminderProducts as $reminderProduct):
       $total_response         = array();
       $read_product_status    = "Read Product Failed";
@@ -266,6 +267,7 @@ class BuyrequestController extends Controller
 
       array_push($total_responses,$total_response);
     endforeach;
+
     $total_responses = json_encode($total_responses);
     echo $total_responses;
 

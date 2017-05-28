@@ -118,8 +118,8 @@ class ProductController extends Controller
       $response_read_product = curl_exec($read_product);
       $response_read_product = json_decode($response_read_product);
 
-      if($response_read_product->status == "OK"):
-        if($response_read_product->products != NULL):
+      if($response_read_product->status == "OK"){
+        if($response_read_product->products != NULL){
 
           $index = 0;
           foreach($response_read_product->products as $read_product ):
@@ -139,7 +139,7 @@ class ProductController extends Controller
               $response_review_product = curl_exec($review_product);
               $response_review_product = json_decode($response_review_product);
               $review_product_status   = "";
-              if($response_review_product):
+              if($response_review_product){
                 if($response_review_product->status == "ERROR"){
                   $review_product_status = "Get Review Product Failed";
                   $product['reviews'] = "";
@@ -151,10 +151,10 @@ class ProductController extends Controller
                     $product['reviews'] = $response_review_product->reviews;
                   endif;
                 }
-              else:
+              }else{
                 $review_product_status = "Get Review Product Failed";
                 $product['reviews'] = "";
-              endif;
+              }
               $product['review_status'] = $review_product_status;
               array_push($total_response,$product);
             else:
@@ -163,8 +163,8 @@ class ProductController extends Controller
             $index++;
           endforeach;
 
-        endif;
-      endif;
+        }
+      }
 
     endforeach;
 

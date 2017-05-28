@@ -17,6 +17,7 @@ class Product extends Model
       'for_sale'
     ];
 
+    public $incrementing = false;
 
 
 }

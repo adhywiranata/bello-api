@@ -29,7 +29,7 @@ class UserbuyrequestController extends Controller
       'keyword'       => $request->json()->get('keyword'),
     );
 
-    Userbuyrequest::create($new_userbuyrequest);
+    Userbuyrequest::firstOrCreate($new_userbuyrequest);
 
     $message = array("message"   =>  "Insert Data User Buy Request Succeed");
     $message = json_encode($message);

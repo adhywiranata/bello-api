@@ -31,13 +31,13 @@ $app->post('/buyrequest', 'BuyrequestController@store');
 //$app->put('/buyrequest/{id}', 'BuyrequestController@update');
 //$app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
 
-$app->get('/buyrequest/{id}', 'BuyrequestController@select');
+//$app->get('/buyrequest/{id}', 'BuyrequestController@select');
 $app->post('/buyrequest/updateCustom', 'BuyrequestController@updateCustom');
 $app->post('/buyrequest/keyword', 'BuyrequestController@keywordAnalytics');
 $app->get('/buyrequest/trends', 'BuyrequestController@keywordTrends');
 $app->post('/buyrequest/reminder', 'BuyrequestController@reminder');
 $app->post('/buyrequest/notification', 'BuyrequestController@notification');
-$app->post('/buyrequest/reccomendation', 'BuyrequestController@reminderProduct');
+$app->post('/buyrequest/recommendation', 'BuyrequestController@reminderProduct');
 
 
 $app->get('/userbuyrequest', 'UserbuyrequestController@index');

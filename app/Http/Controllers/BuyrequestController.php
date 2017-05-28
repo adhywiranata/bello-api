@@ -42,6 +42,7 @@ class BuyrequestController extends Controller
       'is_cancel'           => $request->json()->get('is_cancel'),
       'cancelation_reason'  => $request->json()->get('cancelation_reason'),
       'is_delete'           => $request->json()->get('is_delete'),
+      'is_read'             => -1,
     );
 
     Buyrequest::create($new_buyrequest);
@@ -173,7 +174,7 @@ class BuyrequestController extends Controller
     $user_id    = $request->json()->get('user_id');
     $reminders  = Buyrequest::where('user_id','=',$user_id)
                   ->whereDate('reminder_schedule','>',date("Y-m-d"))
-                  ->where('is_delete','=',0)
+                  ->where('is_delete', '=', 0)
                   ->get();
     echo $reminders;
   }
@@ -183,10 +184,11 @@ class BuyrequestController extends Controller
   {
     //$user_id    = 31040836;
     $user_id    = $request->json()->get('user_id');
-    $reminders  = Buyrequest::where('user_id','=',$user_id)
+    $reminders  = Buyrequest::selectRaw('DISTINCT keyword')
+                  ->where('user_id','=',$user_id)
                   ->whereDate('reminder_schedule','<=',date("Y-m-d"))
-                  ->where('is_read','=',0)
-                  ->where('is_delete','=',0)
+                  ->where('is_read', '=', 0)
+                  ->where('is_delete', '=', 0)
                   ->get();
     echo $reminders;
   }
@@ -203,9 +205,12 @@ class BuyrequestController extends Controller
                             ->where('keyword','like',$keyword)
                             ->orderBy('created_at',"DESC")
                             ->first();
+    $reminder->is_read = 1;
+    $reminder->save();
 
     $reminderProducts  = Product::where( 'created_at','>',$reminder->created_at )
-                                  ->get();
+                                  ->take(5)->get();
+
     $total_responses = array();
     foreach($reminderProducts as $reminderProduct):
       $total_response         = array();
@@ -225,7 +230,13 @@ class BuyrequestController extends Controller
         $total_response['product'] = "";
       }else if($response_read_product->status == "OK"){
         $read_product_status = "Read Product Succeed";
-        $total_response['product'] = $response_read_product->product;
+        //$total_response['product'] = $response_read_product->product;
+
+        $total_response['id']    = $response_read_product->product->id;
+        $total_response['name']  = $response_read_product->product->name;
+        $total_response['owner'] = $response_read_product->product->seller_name;
+        $total_response['price'] = $response_read_product->product->price;
+        $total_response['image'] = $response_read_product->product->images[0];
       }
 
       // READ REVIEW PRODUCT BY PRODUCT ID

@@ -124,6 +124,7 @@ class UserbuyrequestController extends Controller
       });
 
       $dataKeywordAnalytics = array(
+        "id"        =>  $userbuyrequest->id,
         "keyword"   =>  $userbuyrequest->keyword,
         "total"     =>  $countAnalytics,
         "reports"   =>  $reports,

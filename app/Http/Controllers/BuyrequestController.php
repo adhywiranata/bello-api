@@ -79,7 +79,8 @@ class BuyrequestController extends Controller
   public function delete($id)
   {
     $buyrequest = Buyrequest::find($id);
-    $buyrequest->delete();
+    $buyrequest->is_delete = 1;
+    $buyrequest->save();
 
     $message = array("message"   =>  "Delete Data Buy Request Succeed");
     $message = json_encode($message);

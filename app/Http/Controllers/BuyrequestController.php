@@ -38,11 +38,14 @@ class BuyrequestController extends Controller
       'user_id'             => $request->json()->get('user_id'),
       'keyword'             => $request->json()->get('keyword'),
       'is_purchase'         => $request->json()->get('is_purchase'),
-      'reminder_schedule'   => date('Y-m-d',strtotime($request->json()->get('reminder_schedule'))),
+      'reminder_schedule'   => date('Y-m-d',strtotime("2017-05-28")),
+      //'reminder_schedule'   => date('Y-m-d',strtotime($request->json()->get('reminder_schedule'))),
       'is_cancel'           => $request->json()->get('is_cancel'),
       'cancelation_reason'  => $request->json()->get('cancelation_reason'),
       'is_delete'           => $request->json()->get('is_delete'),
       'is_read'             => -1,
+      'created_at'          => date("Y-m-d H:i:s",strtotime("2017-05-14 13:23:41")),
+      'updated_at'          => date("Y-m-d H:i:s",strtotime("2017-05-14 13:23:41")),
     );
 
     Buyrequest::create($new_buyrequest);

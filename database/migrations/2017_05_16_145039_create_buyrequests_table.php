@@ -21,7 +21,7 @@ class CreateBuyrequestsTable extends Migration
           $table->string('cancelation_reason');
           $table->date('reminder_schedule');
           $table->integer('is_read');
-          $table->string('is_delete');
+          $table->integer('is_delete');
           $table->timestamps();
           $table->softDeletes();
       });

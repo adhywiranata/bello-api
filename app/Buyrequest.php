@@ -18,7 +18,9 @@ class Buyrequest extends Model
       'cancelation_reason',
       'reminder_schedule',
       'is_read',
-      'is_delete'
+      'is_delete',
+      'created_at',
+      'updated_at'
     ];
 
 

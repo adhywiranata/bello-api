@@ -251,6 +251,7 @@ class BuyrequestController extends Controller
       curl_setopt($review_product, CURLOPT_RETURNTRANSFER, 1);
       $response_review_product = curl_exec($review_product);
       $response_review_product = json_decode($response_review_product);
+      
       if($response_review_product->status == "ERROR"){
         $review_product_status = "Get Review Product Failed";
         $total_response['reviews'] = "";
@@ -262,6 +263,7 @@ class BuyrequestController extends Controller
           $total_response['reviews'] = $response_review_product->reviews;
         endif;
       }
+
       $total_response['product_status'] = $read_product_status;
       $total_response['review_status'] = $review_product_status;
 

@@ -29,7 +29,7 @@ $app->post('/user/updateCustom', 'UserController@updateCustom');
 $app->get('/buyrequest', 'BuyrequestController@index');
 $app->post('/buyrequest', 'BuyrequestController@store');
 //$app->put('/buyrequest/{id}', 'BuyrequestController@update');
-//$app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
+$app->post('/buyrequest/delete/{id}', 'BuyrequestController@delete');
 
 //$app->get('/buyrequest/{id}', 'BuyrequestController@select');
 $app->post('/buyrequest/updateCustom', 'BuyrequestController@updateCustom');
@@ -43,7 +43,7 @@ $app->post('/buyrequest/recommendation', 'BuyrequestController@reminderProduct')
 $app->get('/userbuyrequest', 'UserbuyrequestController@index');
 $app->post('/userbuyrequest', 'UserbuyrequestController@store');
 $app->put('/userbuyrequest/{id}', 'UserbuyrequestController@update');
-$app->delete('/userbuyrequest/{id}', 'UserbuyrequestController@delete');
+$app->post('/userbuyrequest/delete/{id}', 'UserbuyrequestController@delete');
 $app->post('/user/keywords/subscribe', 'UserbuyrequestController@userSubscribeKeywords');
 $app->post('/user/onesignal', 'UserController@oneSignal');
 

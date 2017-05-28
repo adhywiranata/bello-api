@@ -69,21 +69,78 @@ class UserbuyrequestController extends Controller
     $user_id  = $request->json()->get('user_id');
     $userbuyrequests = Userbuyrequest::where('user_id','=',$user_id)->get();
 
-    $message = array();
+    $message  = array();
+    $year     = date('Y');
     foreach($userbuyrequests as $userbuyrequest):
-      $userkeywords   = Buyrequest::select('*', DB::raw('count(*) as total'))
-                         ->where('keyword','like','%'.$userbuyrequest->keyword.'%')
-                         ->groupBy('keyword')
-                         ->orderBy('total','DESC')
-                         ->first();
-      $data = array(
-        "keyword"   =>  $userkeywords->keyword,
-        "total"     =>  $userkeywords->total,
+
+      $analytics = Buyrequest::where('keyword','like','%'.$userbuyrequest->keyword.'%')
+                              ->whereYear('created_at','=',$year)
+                              ->orderBy('created_at','ASC')
+                              ->get()
+                              ->groupBy(function($date) {
+                                  return Carbon::parse($date->created_at)->format('m');
+                                });
+
+      $reports            = array();
+      $countAnalytics     = 0;
+      $arrayMonthlyExist  = array();
+      if(sizeof($analytics) > 0):
+        foreach($analytics as  $index => $analytic):
+          $month      = intval($index);
+          $dateObj    = DateTime::createFromFormat('!m', $month);
+          $monthName  = $dateObj->format('F');
+          $monthName  = substr($monthName,0,3);
+          $count = count($analytic);
+          $data = array(
+            "monthNumber" => $month,
+            "month"       => $monthName,
+            "total"       => $count
+          );
+          $countAnalytics += $count;
+          array_push($arrayMonthlyExist,$month);
+          array_push($reports,$data);
+        endforeach;
+      endif;
+
+      for ($i=1; $i<=12; $i++):
+        if ( !in_array($i, $arrayMonthlyExist) ):
+
+          $dateObj    = DateTime::createFromFormat('!m', $i);
+          $monthName  = $dateObj->format('F');
+          $monthName  = substr($monthName,0,3);
+          $count = 0;
+          $data = array(
+            "monthNumber" => $i,
+            "month"       => $monthName,
+            "total"       => $count
+          );
+          array_push($reports,$data);
+
+        endif;
+      endfor;
+
+      usort($reports,function($a, $b) {
+         return $a['monthNumber'] - $b['monthNumber'];
+      });
+
+      $dataKeywordAnalytics = array(
+        "keyword"   =>  $userbuyrequest->keyword,
+        "total"     =>  $countAnalytics,
+        "reports"   =>  $reports,
       );
-      array_push($message,$data);
+      array_push($message,$dataKeywordAnalytics);
     endforeach;
     $message = json_encode($message);
     echo $message;
+
+    /* PREVIOUS CODE
+   $userkeywords   = Buyrequest::select('*') //DB::raw('count("keyword") as total')
+                     ->where('keyword','like','%'.$userbuyrequest->keyword.'%')
+                     ->groupBy('keyword')
+                     ->orderBy('total','DESC')
+                     ->get();
+    */
+    //return response()->json($message);
   }
 
 

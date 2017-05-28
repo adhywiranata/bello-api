@@ -28,8 +28,8 @@ $app->post('/user/updateCustom', 'UserController@updateCustom');
 
 $app->get('/buyrequest', 'BuyrequestController@index');
 $app->post('/buyrequest', 'BuyrequestController@store');
-$app->put('/buyrequest/{id}', 'BuyrequestController@update');
-$app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
+//$app->put('/buyrequest/{id}', 'BuyrequestController@update');
+//$app->delete('/buyrequest/{id}', 'BuyrequestController@delete');
 
 //$app->get('/buyrequest/{id}', 'BuyrequestController@select');
 $app->post('/buyrequest/updateCustom', 'BuyrequestController@updateCustom');

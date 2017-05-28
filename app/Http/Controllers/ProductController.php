@@ -288,7 +288,8 @@ class ProductController extends Controller
     $post_data = array(
       'id'          => $request->json()->get('product_id'),
     );
-    $url_delete_cart    = 'https://api.bukalapak.com/v2/carts.json';
+
+    $url_delete_cart    = 'https://api.bukalapak.com/v2/carts/item/'.$post_data['id'].'.json';
     $delete_cart        =  curl_init();
 
     curl_setopt($delete_cart, CURLOPT_URL, $url_delete_cart);
@@ -296,6 +297,7 @@ class ProductController extends Controller
     curl_setopt($delete_cart, CURLOPT_POST, 1);
     curl_setopt($delete_cart, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($delete_cart, CURLOPT_POSTFIELDS, $post_data);
+    curl_setopt($delete_cart, CURLOPT_CUSTOMREQUEST, "DELETE");
     $response_delete_cart = curl_exec($delete_cart);
 
     echo $response_delete_cart;
